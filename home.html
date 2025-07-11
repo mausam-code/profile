@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Season Singh Rajak</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0078d4;
+            --secondary: #ff6b6b;
+            --text: #2d2d2d;
+            --bg: #ffffff;
+        }
+
+        /* Advanced Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--primary);
+            border-radius: 50%;
+            position: fixed;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            transition: all 0.3s ease, width 0.3s ease, height 0.3s ease;
+            z-index: 999;
+        }
+
+        .cursor.active {
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 120, 212, 0.2);
+        }
+
+        /* Particle Background */
+        #particles-js {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+    <div class="cursor"></div>
+    <div id="particles-js"></div>
+
+    <header data-aos="fade-down">
+        <!-- Animated Background -->
+        <canvas class="header-canvas"></canvas>
+        <div class="container">
+            <h1 data-aos="fade-up">Season Singh Rajak</h1>
+            <p data-aos="fade-up" data-aos-delay="200">Entrepreneur</p>
+        </div>
+    </header>
+
+    <!-- Add 3D Card Elements -->
+    <section class="project-card" data-aos="flip-left">
+        <div class="project-inner">
+            <div class="project-front">
+                <h3>Stay Tuned!</h3>
+            </div>
+        </div>
+    </section>
+
+    <!-- Add Scroll Progress Indicator -->
+    <div class="scroll-progress"></div>
+
+    <!-- Add Page Transition Overlay -->
+    <div class="transition-overlay"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+
+    <script>
+        // Initialize AOS (Animate On Scroll)
+        AOS.init({
+            duration: 1000,
+            once: false,
+            mirror: true
+        });
+
+        // Custom Cursor Logic
+        const cursor = document.querySelector('.cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // Hover Effects
+        document.querySelectorAll('a, button').forEach(el => {
+            el.addEventListener('mouseenter', () => cursor.classList.add('active'));
+            el.addEventListener('mouseleave', () => cursor.classList.remove('active'));
+        });
+
+        // Particle Background
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80 },
+                color: { value: '#0078d4' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                move: {
+                    enable: true,
+                    speed: 2,
+                    direction: 'none',
+                    random: false,
+                    straight: false,
+                    out_mode: 'out',
+                    bounce: false,
+                }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: {
+                    onhover: { enable: true, mode: 'repulse' },
+                    onclick: { enable: true, mode: 'push' },
+                    resize: true
+                }
+            }
+        });
+
+        // Smooth Page Transitions
+        document.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                document.querySelector('.transition-overlay').classList.add('active');
+                setTimeout(() => window.location = link.href, 1000);
+            });
+        });
+
+        // 3D Card Tilt Effect
+        VanillaTilt.init(document.querySelectorAll(".project-card"), {
+            max: 15,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.2
+        });
+
+        // Scroll Progress Indicator
+        window.addEventListener('scroll', () => {
+            const progress = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.querySelector('.scroll-progress').style.width = progress + '%';
+        });
+    </script>
+</body>
+</html>
